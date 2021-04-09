@@ -1,5 +1,5 @@
 # We're using Ubuntu 20.10
-FROM biansepang/weebproject:buster
+FROM mrismanaziz/man-userbot:buster
 
 RUN git clone -b alpha https://github.com/mrismanaziz/Man-Userbot /root/userbot
 RUN mkdir /root/userbot/.bin
