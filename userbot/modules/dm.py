@@ -32,7 +32,7 @@ async def dm(e):
             "`.help dm`",
             time=4,
         )
-        
+
 
 CMD_HELP.update(
     {
