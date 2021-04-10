@@ -10,13 +10,12 @@ from userbot.events import register
 async def saf(e):
     x = await e.get_reply_message()
     if not x:
-        return await edit(
-            e,
+        return await e.edit(
             "Balas ke Pesan Apa Saja untuk menyimpannya ke pesan simpanan Anda",
             time=5,
         )
     await bot.send_message("me", x)
-    await edit(e, "Message saved at saved messages", time=5)
+    await e.edit("Message saved at saved messages", time=5)
 
 
 CMD_HELP.update(
