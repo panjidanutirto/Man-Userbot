@@ -1,21 +1,12 @@
 from asyncio import sleep
 
-from telethon.errors import ChatAdminRequiredError, UserAdminInvalidError
 from telethon.tl import functions
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import (
     ChannelParticipantsAdmins,
     ChannelParticipantsKicked,
     ChatBannedRights,
-    UserStatusEmpty,
-    UserStatusLastMonth,
-    UserStatusLastWeek,
-    UserStatusOffline,
-    UserStatusOnline,
-    UserStatusRecently,
 )
-
-from userbot import BOTLOG, BOTLOG_CHATID
 
 BANNED_RIGHTS = ChatBannedRights(
     until_date=None,
@@ -75,6 +66,7 @@ async def _(event):
         f"`Sucessfully i have completed kickall process with {success} members kicked out of {total} members`"
     )
 
+
 @register(outgoing=True, pattern=r"^\.banall ?(.*)")
 async def _(event):
     if event.fwd_from:
@@ -122,6 +114,7 @@ async def _(event):
         f"`Sucessfully i have completed banall process with {success} members banned out of {total} members`"
     )
 
+
 @register(outgoing=True, pattern=r"^\.unbanall ?(.*)")
 async def _(event):
     if event.fwd_from:
@@ -147,7 +140,7 @@ async def _(event):
             else:
                 p += 1
         await et.edit("{}: {} unbanned".format(event.chat_id, p))
-        
+
 
 CMD_HELP.update(
     {
