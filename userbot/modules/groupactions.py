@@ -9,6 +9,7 @@ from telethon.tl.types import (
 )
 
 from userbot import CMD_HELP
+from userbot.events import register
 
 BANNED_RIGHTS = ChatBannedRights(
     until_date=None,
