@@ -14,12 +14,15 @@ import os
 import re
 import shutil
 import time
+import urllib.parse
 from asyncio import sleep
 from os import popen
 from random import choice
 from re import findall, match
 from time import sleep
 from urllib.parse import quote_plus
+from asyncio import create_subprocess_shell as asyncSubprocess
+from asyncio.subprocess import PIPE as asyncPIPE
 
 import asyncurban
 import barcode
@@ -30,6 +33,7 @@ from barcode.writer import ImageWriter
 from bs4 import BeautifulSoup
 from emoji import get_emoji_regexp
 from googletrans import LANGUAGES, Translator
+from js2py import EvalJs
 from gtts import gTTS
 from gtts.lang import tts_langs
 from hachoir.metadata import extractMetadata
@@ -948,34 +952,28 @@ def gdrive(url: str) -> str:
 
 
 def zippy_share(url: str) -> str:
-    """ZippyShare direct links generator
-    Based on https://github.com/LameLemon/ziggy"""
-    reply = ""
-    dl_url = ""
+    link = re.findall("https:/.(.*?).zippyshare", url)[0]
+    response_content = (requests.get(url)).content
+    bs_obj = BeautifulSoup(response_content, "lxml")
+
     try:
-        link = re.findall(r"\bhttps?://.*zippyshare\.com\S+", url)[0]
-    except IndexError:
-        reply = "`No ZippyShare links found`\n"
-        return reply
-    session = requests.Session()
-    base_url = re.search("http.+.com", link).group()
-    response = session.get(link)
-    page_soup = BeautifulSoup(response.content, "lxml")
-    scripts = page_soup.find_all("script", {"type": "text/javascript"})
-    for script in scripts:
-        if "getElementById('dlbutton')" in script.text:
-            url_raw = re.search(
-                r"= (?P<url>\".+\" \+ (?P<math>\(.+\)) .+);", script.text
-            ).group("url")
-            math = re.search(
-                r"= (?P<url>\".+\" \+ (?P<math>\(.+\)) .+);", script.text
-            ).group("math")
-            dl_url = url_raw.replace(math, '"' + str(eval(math)) + '"')
-            break
-    dl_url = base_url + eval(dl_url)
-    name = urllib.parse.unquote(dl_url.split("/")[-1])
-    reply += f"[{name}]({dl_url})\n"
-    return reply
+        js_script = bs_obj.find("div", {"class": "center",}).find_all(
+            "script"
+        )[1]
+    except:
+        js_script = bs_obj.find("div", {"class": "right",}).find_all(
+            "script"
+        )[0]
+
+    js_content = re.findall(r'\.href.=."/(.*?)";', str(js_script))
+    js_content = 'var x = "/' + js_content[0] + '"'
+
+    evaljs = EvalJs()
+    setattr(evaljs, "x", None)
+    evaljs.execute(js_content)
+    js_content = getattr(evaljs, "x")
+
+    return f"https://{link}.zippyshare.com{js_content}"
 
 
 def yandex_disk(url: str) -> str:
