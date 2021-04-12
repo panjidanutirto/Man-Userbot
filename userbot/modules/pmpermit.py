@@ -85,9 +85,7 @@ async def permitpm(event):
                 COUNT_PM[event.chat_id] = COUNT_PM[event.chat_id] + 1
 
             if COUNT_PM[event.chat_id] > 8:
-                await event.respond(
-                    "`Anda Telah Di Blokir Karna Melakukan Spam Pesan`"
-                )
+                await event.respond("`Anda Telah Di Blokir Karna Melakukan Spam Pesan`")
 
                 try:
                     del COUNT_PM[event.chat_id]
@@ -212,7 +210,7 @@ async def approvepm(apprvpm):
 
         try:
             user = await apprvpm.client.get_entity(inputArgs)
-        except:
+        except BaseException:
             return await apprvpm.edit("**Invalid username/ID.**")
 
         if not isinstance(user, User):
@@ -274,7 +272,7 @@ async def disapprovepm(disapprvpm):
 
         try:
             user = await disapprvpm.client.get_entity(inputArgs)
-        except:
+        except BaseException:
             return await disapprvpm.edit("**Invalid username/ID.**")
 
         if not isinstance(user, User):
@@ -292,7 +290,9 @@ async def disapprovepm(disapprvpm):
         name0 = str(aname.first_name)
         aname = aname.id
 
-    await disapprvpm.edit(f"[{name0}](tg://user?id={aname}) `Pesan Anda Telah Ditolak, Mohon Jangan Melakukan Spam Ke Room Chat!`")
+    await disapprvpm.edit(
+        f"[{name0}](tg://user?id={aname}) `Pesan Anda Telah Ditolak, Mohon Jangan Melakukan Spam Ke Room Chat!`"
+    )
 
     if BOTLOG:
         await disapprvpm.client.send_message(
@@ -389,12 +389,15 @@ async def add_pmsg(cust_msg):
 
         if BOTLOG:
             await cust_msg.client.send_message(
-                BOTLOG_CHATID, f"***{status} PM Yang Tersimpan Dalam Room Chat Anda:*** \n\n{msg}"
+                BOTLOG_CHATID,
+                f"***{status} PM Yang Tersimpan Dalam Room Chat Anda:*** \n\n{msg}",
             )
 
     if conf.lower() == "reset":
         if custom_message is None:
-            await cust_msg.edit("`Anda Telah Menghapus Pesan Custom PMPERMIT menjadi Default`")
+            await cust_msg.edit(
+                "`Anda Telah Menghapus Pesan Custom PMPERMIT menjadi Default`"
+            )
 
         else:
             sql.delgvar("unapproved_msg")
@@ -402,7 +405,8 @@ async def add_pmsg(cust_msg):
     if conf.lower() == "get":
         if custom_message is not None:
             await cust_msg.edit(
-                "**Ini Adalah Pesan PMPERMIT Yang Sekarang Dikirimkan Ke Room Chat Anda:**" f"\n\n{custom_message}"
+                "**Ini Adalah Pesan PMPERMIT Yang Sekarang Dikirimkan Ke Room Chat Anda:**"
+                f"\n\n{custom_message}"
             )
         else:
             await cust_msg.edit(
