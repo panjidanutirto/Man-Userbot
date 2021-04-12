@@ -152,11 +152,8 @@ async def _(event):
 CMD_HELP.update(
     {
         "kangban": "**Plugin : **`kangban`\
-    \n\n•  **Syntax : **`.kickall`\
-    \n•  **Function : **__To kick all users except admins from the chat__\
-    \n\n•  **Syntax : **`.banall`\
-    \n•  **Function : **__To ban all users except admins from the chat__\
-    \n\n•  **Syntax : **`.unbanall`\
-    \n•  **Function : **__Unbans everyone who are blocked in that group __\"
+        \n\n  •  **Syntax :** `.banall`\
+        \n  •  **Function : **To ban all users except admins from the chat.\
+    "
     }
 )
