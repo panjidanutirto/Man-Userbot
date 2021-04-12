@@ -26,10 +26,9 @@ from userbot.events import register
 DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else uname().node
 
 DEF_UNAPPROVED_MSG = (
-    f"Hai [{name0}](tg://user?id={uid}), Saya **{DEFAULTUSER}-Userbot Private Security Protocol**⚠️\n\n"
+    f"↣ Hallo, Saya **{DEFAULTUSER}-Userbot Private Security Protocol** ↢\n\n"
     f"__SAYA ADALAH BOT YANG MENJAGA ROOM CHAT INI MOHON JANGAN MELAKUKAN SPAM SAMPAI 8 CHAT, KARNA SAYA OTOMATIS AKAN MEMBLOKIR ANDA, TUNGGU SAMPAI__ **{DEFAULTUSER}** __MENERIMA PESAN ANDA__\n\n"
-    "✣ `PESAN OTOMATIS`\n"
-    "✣ `BY MAN-USERBOT`\n"
+    "✣ `PESAN OTOMATIS BY MAN-USERBOT` ✣\n"
 )
 # =================================================================
 
