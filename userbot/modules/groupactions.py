@@ -1,5 +1,6 @@
 from asyncio import sleep
 
+from userbot import CMD_HELP
 from telethon.tl import functions
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import (
