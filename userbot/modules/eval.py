@@ -5,82 +5,87 @@
 #
 
 import asyncio
+import sys
+from io import StringIO
 from os import remove
-from sys import executable
+from traceback import format_exc
 
-from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP, TERM_ALIAS
+from userbot import CMD_HELP
 from userbot.events import register
 
 
-@register(outgoing=True, pattern=r"^\.eval(?: |$)(.*)")
-async def evaluate(query):
-    if query.is_channel and not query.is_group:
-        return await query.edit("`Eval isn't permitted on channels`")
-
-    if query.pattern_match.group(1):
-        expression = query.pattern_match.group(1)
-    else:
-        return await query.edit("``` Give an expression to evaluate. ```")
+@register(outgoing=True, pattern=r"^\.eval(?: |$|\n)([\s\S]*)")
+async def evaluate(event):
+    """For .eval command, evaluates the given Python expression."""
+    expression = event.pattern_match.group(1)
+    if not expression:
+        return await event.edit("**Give an expression to evaluate.**")
 
     if expression in ("userbot.session", "config.env"):
-        return await query.edit("`That's a dangerous operation! Not Permitted!`")
+        return await event.edit("**That's a dangerous operation! Not permitted!**")
+
+    await event.edit("**Processing...**")
+    old_stderr = sys.stderr
+    old_stdout = sys.stdout
+    redirected_output = sys.stdout = StringIO()
+    redirected_error = sys.stderr = StringIO()
+    stdout, stderr, exc, returned = None, None, None, None
+
+    async def aexec(code, event):
+        head = "async def __aexec(event):\n "
+        code = "".join(f"\n {line}" for line in code.split("\n"))
+        exec(head + code)  # pylint: disable=exec-used
+        return await locals()["__aexec"](event)
 
     try:
-        evaluation = str(eval(expression))
+        returned = await aexec(expression, event)
+    except Exception:  # pylint: disable=broad-except
+        exc = format_exc()
+
+    stdout = redirected_output.getvalue().strip()
+    stderr = redirected_error.getvalue().strip()
+    sys.stdout = old_stdout
+    sys.stderr = old_stderr
+    evaluation = str(exc or stderr or stdout or returned)
+
+    expression.encode("unicode-escape").decode().replace("\\\\", "\\")
+    evaluation.encode("unicode-escape").decode().replace("\\\\", "\\")
+
+    try:
         if evaluation:
-            if isinstance(evaluation, str):
-                if len(evaluation) >= 4096:
-                    file = open("output.txt", "w+")
+            if len(str(evaluation)) >= 4096:
+                with open("output.txt", "w+") as file:
                     file.write(evaluation)
-                    file.close()
-                    await query.client.send_file(
-                        query.chat_id,
-                        "output.txt",
-                        reply_to=query.id,
-                        caption="`Output too large, sending as file`",
-                    )
-                    remove("output.txt")
-                    return
-                await query.edit(
-                    "**Query: **\n`"
-                    f"{expression}"
-                    "`\n**Result: **\n`"
-                    f"{evaluation}"
-                    "`"
+                await event.client.send_file(
+                    event.chat_id,
+                    "output.txt",
+                    reply_to=event.id,
+                    caption="**Output too large, sending as file...**",
                 )
+                remove("output.txt")
+                return
+            await event.edit(
+                f"**Query:**\n`{expression}`\n\n**Result:**\n`{evaluation}`"
+            )
         else:
-            await query.edit(
-                "**Query: **\n`"
-                f"{expression}"
-                "`\n**Result: **\n`No Result Returned/False`"
+            await event.edit(
+                f"**Query:**\n`{expression}`\n\n**Result:**\n`No Result Returned/False`"
             )
     except Exception as err:
-        await query.edit(
-            "**Query: **\n`" f"{expression}" "`\n**Exception: **\n" f"`{err}`"
-        )
-
-    if BOTLOG:
-        await query.client.send_message(
-            BOTLOG_CHATID, f"Eval query {expression} was executed successfully"
-        )
+        await event.edit(f"**Query:**\n`{expression}`\n\n**Exception:**\n`{err}`")
 
 
-@register(outgoing=True, pattern=r"^\.exec(?: |$)([\s\S]*)")
-async def run(run_q):
-    code = run_q.pattern_match.group(1)
-
-    if run_q.is_channel and not run_q.is_group:
-        return await run_q.edit("`Exec isn't permitted on channels!`")
-
+@register(outgoing=True, pattern=r"^\.exec(?: |$|\n)([\s\S]*)")
+async def run(event):
+    """For .exec command, which executes the dynamically created program"""
+    code = event.pattern_match.group(1)
     if not code:
-        return await run_q.edit(
-            "``` At least a variable is required to"
-            "execute. Use .help exec for an example.```"
-        )
+        return await event.edit("**Read** `.help exec` **for an example.**")
 
     if code in ("userbot.session", "config.env"):
-        return await run_q.edit("`That's a dangerous operation! Not Permitted!`")
+        return await event.edit("**That's a dangerous operation! Not permitted!**")
 
+    await event.edit("**Processing...**")
     if len(code.splitlines()) <= 5:
         codepre = code
     else:
@@ -91,96 +96,70 @@ async def run(run_q):
 
     command = "".join(f"\n {l}" for l in code.split("\n.strip()"))
     process = await asyncio.create_subprocess_exec(
-        executable,
+        sys.executable,
         "-c",
         command.strip(),
         stdout=asyncio.subprocess.PIPE,
-        stderr=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.STDOUT,
     )
-    stdout, stderr = await process.communicate()
-    result = str(stdout.decode().strip()) + str(stderr.decode().strip())
+    stdout, _ = await process.communicate()
+    stdout = str(stdout)
 
-    if result:
-        if len(result) > 4096:
-            file = open("output.txt", "w+")
-            file.write(result)
-            file.close()
-            await run_q.client.send_file(
-                run_q.chat_id,
+    codepre.encode("unicode-escape").decode().replace("\\\\", "\\")
+    stdout.encode("unicode-escape").decode().replace("\\\\", "\\")
+
+    if stdout:
+        if len(stdout) > 4096:
+            with open("output.txt", "w+") as file:
+                file.write(stdout)
+            await event.client.send_file(
+                event.chat_id,
                 "output.txt",
-                reply_to=run_q.id,
-                caption="`Output too large, sending as file`",
+                reply_to=event.id,
+                caption="**Output too large, sending as file...**",
             )
-            remove("output.txt")
-            return
-        await run_q.edit(
-            "**Query: **\n`" f"{codepre}" "`\n**Result: **\n`" f"{result}" "`"
-        )
+            return remove("output.txt")
+        await event.edit(f"**Query:**\n`{codepre}`\n\n**Result:**\n`{stdout}`")
     else:
-        await run_q.edit(
-            "**Query: **\n`" f"{codepre}" "`\n**Result: **\n`No Result Returned/False`"
-        )
-
-    if BOTLOG:
-        await run_q.client.send_message(
-            BOTLOG_CHATID, "Exec query " + codepre + " was executed successfully"
+        await event.edit(
+            f"**Query:**\n`{codepre}`\n\n**Result:**\n`No result returned/False`"
         )
 
 
-@register(outgoing=True, pattern=r"^\.term(?: |$)(.*)")
-async def terminal_runner(term):
-    curruser = TERM_ALIAS
-    command = term.pattern_match.group(1)
-    try:
-        from os import geteuid
-
-        uid = geteuid()
-    except ImportError:
-        uid = "This ain't it chief!"
-
-    if term.is_channel and not term.is_group:
-        return await term.edit("`Term commands aren't permitted on channels!`")
+@register(outgoing=True, pattern=r"^\.term(?: |$|\n)([\s\S]*)")
+async def terminal_runner(event):
+    """For .term command, runs bash commands and scripts on your server."""
+    command = event.pattern_match.group(1)
 
     if not command:
-        return await term.edit(
-            "``` Give a command or use .help term for an example.```"
-        )
+        return await event.edit("**Give a command or use .help term for an example.**")
 
     if command in ("userbot.session", "config.env"):
-        return await term.edit("`That's a dangerous operation! Not Permitted!`")
+        return await event.edit("**That's a dangerous operation! Not permitted!**")
 
+    await event.edit("**Processing...**")
     process = await asyncio.create_subprocess_shell(
-        command, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+        command, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.STDOUT
     )
-    stdout, stderr = await process.communicate()
-    result = str(stdout.decode().strip()) + str(stderr.decode().strip())
+    stdout, _ = await process.communicate()
+    stdout = str(stdout)
 
-    if len(result) > 4096:
-        output = open("output.txt", "w+")
-        output.write(result)
-        output.close()
-        await term.client.send_file(
-            term.chat_id,
+    command.encode("unicode-escape").decode().replace("\\\\", "\\")
+    stdout.encode("unicode-escape").decode().replace("\\\\", "\\")
+
+    if len(stdout) > 4096:
+        with open("output.txt", "w+") as output:
+            output.write(stdout)
+        await event.client.send_file(
+            event.chat_id,
             "output.txt",
-            reply_to=term.id,
-            caption="`Output too large, sending as file`",
+            reply_to=event.id,
+            caption="**Output too large, sending as file...**",
         )
-        remove("output.txt")
-        return
+        return remove("output.txt")
 
-    if uid == 0:
-        await term.edit("`" f"{curruser}:~# {command}" f"\n{result}" "`")
-    else:
-        await term.edit("`" f"{curruser}:~$ {command}" f"\n{result}" "`")
+    await event.edit(f"**Command:**\n`{command}`\n\n**Result:**\n`{stdout}`")
 
-
-"""
-    if BOTLOG:
-        await term.client.send_message(
-            BOTLOG_CHATID,
-            "Terminal Command " + command + " was executed sucessfully",
-        )
-"""
 
 CMD_HELP.update(
     {
