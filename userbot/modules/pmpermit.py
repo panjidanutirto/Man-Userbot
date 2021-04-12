@@ -26,10 +26,10 @@ from userbot.events import register
 DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else uname().node
 
 DEF_UNAPPROVED_MSG = (
-    f"Hello, Saya **{DEFAULTUSER}-Userbot Pr¡va†e Security Protocol**⚠️\n"
-    f"__SAYA ADALAH BOT YANG MENJAGA ROOM CHAT INI MOHON JANGAN MELAKUKAN SPAM KARNA SAYA OTOMATIS AKAN MEMBLOKIR ANDA, TUNGGU SAMPAI {DEFAULTUSER} MENERIMA PESAN ANDA__\n\n"
-    "✣ `PESAN OTOMATIS`\n"
-    "✣ `BY MAN-USERBOT`\n"
+    f"`Hello, Saya {DEFAULTUSER}-Userbot Pr¡va†e Security Protocol`⚠️\n"
+    f"`SAYA ADALAH BOT YANG MENJAGA ROOM CHAT INI MOHON JANGAN MELAKUKAN SPAM KARNA SAYA OTOMATIS AKAN MEMBLOKIR ANDA, TUNGGU SAMPAI {DEFAULTUSER} MENERIMA PESAN ANDA`\n\n"
+    "`✣` PESAN OTOMATIS\n"
+    "`✣` BY MAN-USERBOT\n"
 )
 # =================================================================
 
@@ -171,7 +171,7 @@ async def notifoff(noff_event):
     except AttributeError:
         return await noff_event.edit("`Running on Non-SQL mode!`")
     addgvar("NOTIF_OFF", True)
-    await noff_event.edit("**Notifications from unapproved PMs are silenced!**")
+    await noff_event.edit("`Notifikasi Pesan Pribadi Tidak Disetujui, Telah Dibisukan!`")
 
 
 @register(outgoing=True, pattern=r"^\.notifon$")
@@ -182,7 +182,7 @@ async def notifon(non_event):
     except AttributeError:
         return await non_event.edit("`Running on Non-SQL mode!`")
     delgvar("NOTIF_OFF")
-    await non_event.edit("**Notifications from unapproved PMs unmuted!**")
+    await non_event.edit("`Notifikasi Pesan Pribadi Disetujui, Tidak Lagi Dibisukan!`")
 
 
 @register(outgoing=True, pattern=r"^\.(?:setuju|ok)\s?(.)?")
@@ -237,7 +237,7 @@ async def approvepm(apprvpm):
     try:
         approve(uid)
     except IntegrityError:
-        return await apprvpm.edit("`Oke Pesan Anda Sudah Diterima`")
+        return await apprvpm.edit("`Pesan Anda Sudah Diterima`")
 
     await apprvpm.edit(f"[{name0}](tg://user?id={uid}) **approved to PM!**")
 
@@ -273,7 +273,7 @@ async def disapprovepm(disapprvpm):
         try:
             user = await disapprvpm.client.get_entity(inputArgs)
         except BaseException:
-            return await disapprvpm.edit("**Invalid username/ID.**")
+            return await disapprvpm.edit("`Salah username atau User ID.`")
 
         if not isinstance(user, User):
             return await disapprvpm.edit("**This can be done only with users.**")
@@ -348,7 +348,7 @@ async def unblockpm(unblock):
     if BOTLOG:
         await unblock.client.send_message(
             BOTLOG_CHATID,
-            f"[{name0}](tg://user?id={replied_user.id})" " was unblocc'd!.",
+            f"[{name0}](tg://user?id={replied_user.id})" " Berhasil di Unblock!.",
         )
 
 
@@ -356,7 +356,7 @@ async def unblockpm(unblock):
 async def add_pmsg(cust_msg):
     """Set your own Unapproved message"""
     if not PM_AUTO_BAN:
-        return await cust_msg.edit("You need to set `PM_AUTO_BAN` to `True`")
+        return await cust_msg.edit("**Anda Harus Menyetel** `PM_AUTO_BAN` **Ke** `True`")
     try:
         import userbot.modules.sql_helper.globals as sql
     except AttributeError:
@@ -370,12 +370,12 @@ async def add_pmsg(cust_msg):
 
     if conf.lower() == "set":
         message = await cust_msg.get_reply_message()
-        status = "Saved"
+        status = "Pesan"
 
         # check and clear user unapproved message first
         if custom_message is not None:
             sql.delgvar("unapproved_msg")
-            status = "Updated"
+            status = "Pesan"
 
         if not message:
             return await cust_msg.edit("`Mohon Balas Ke Pesan`")
@@ -390,7 +390,7 @@ async def add_pmsg(cust_msg):
         if BOTLOG:
             await cust_msg.client.send_message(
                 BOTLOG_CHATID,
-                f"***{status} PM Yang Tersimpan Dalam Room Chat Anda:*** \n\n{msg}",
+                f"***{status} PMPERMIT Yang Tersimpan Dalam Room Chat Anda:*** \n\n{msg}",
             )
 
     if conf.lower() == "reset":
@@ -405,12 +405,12 @@ async def add_pmsg(cust_msg):
     if conf.lower() == "get":
         if custom_message is not None:
             await cust_msg.edit(
-                "**Ini Adalah Pesan PMPERMIT Yang Sekarang Dikirimkan Ke Room Chat Anda:**"
+                "**Pesan PMPERMIT Yang Sekarang Dikirimkan Ke Room Chat Anda:**"
                 f"\n\n{custom_message}"
             )
         else:
             await cust_msg.edit(
-                "***Anda Belum Menyetel PMPERMIT**\n"
+                "**Anda Belum Menyetel Pesan Costuom PMPERMIT** "
                 f"Masih Menggunakan Pesan PM Default: \n\n`{DEF_UNAPPROVED_MSG}`"
             )
 
