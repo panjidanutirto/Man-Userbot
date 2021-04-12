@@ -21,8 +21,6 @@ from random import choice
 from re import findall, match
 from time import sleep
 from urllib.parse import quote_plus
-from asyncio import create_subprocess_shell as asyncSubprocess
-from asyncio.subprocess import PIPE as asyncPIPE
 
 import asyncurban
 import barcode
@@ -33,12 +31,12 @@ from barcode.writer import ImageWriter
 from bs4 import BeautifulSoup
 from emoji import get_emoji_regexp
 from googletrans import LANGUAGES, Translator
-from js2py import EvalJs
 from gtts import gTTS
 from gtts.lang import tts_langs
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 from humanize import naturalsize
+from js2py import EvalJs
 from requests import exceptions, get, post
 from search_engine_parser import GoogleSearch
 from search_engine_parser import YahooSearch as GoogleSearch
@@ -960,7 +958,7 @@ def zippy_share(url: str) -> str:
         js_script = bs_obj.find("div", {"class": "center",}).find_all(
             "script"
         )[1]
-    except:
+    except BaseException:
         js_script = bs_obj.find("div", {"class": "right",}).find_all(
             "script"
         )[0]
