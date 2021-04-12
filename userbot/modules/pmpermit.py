@@ -171,7 +171,9 @@ async def notifoff(noff_event):
     except AttributeError:
         return await noff_event.edit("`Running on Non-SQL mode!`")
     addgvar("NOTIF_OFF", True)
-    await noff_event.edit("`Notifikasi Pesan Pribadi Tidak Disetujui, Telah Dibisukan!`")
+    await noff_event.edit(
+        "`Notifikasi Pesan Pribadi Tidak Disetujui, Telah Dibisukan!`"
+    )
 
 
 @register(outgoing=True, pattern=r"^\.notifon$")
@@ -356,7 +358,9 @@ async def unblockpm(unblock):
 async def add_pmsg(cust_msg):
     """Set your own Unapproved message"""
     if not PM_AUTO_BAN:
-        return await cust_msg.edit("**Anda Harus Menyetel** `PM_AUTO_BAN` **Ke** `True`")
+        return await cust_msg.edit(
+            "**Anda Harus Menyetel** `PM_AUTO_BAN` **Ke** `True`"
+        )
     try:
         import userbot.modules.sql_helper.globals as sql
     except AttributeError:
