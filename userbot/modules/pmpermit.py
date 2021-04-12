@@ -26,7 +26,7 @@ from userbot.events import register
 DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else uname().node
 
 DEF_UNAPPROVED_MSG = (
-    f"Hello, Saya **{DEFAULTUSER}-Userbot Private Security Protocol**⚠️\n\n"
+    f"Hai [{user.first_name}](tg://user?id={user.id}), Saya **{DEFAULTUSER}-Userbot Private Security Protocol**⚠️\n\n"
     f"__SAYA ADALAH BOT YANG MENJAGA ROOM CHAT INI MOHON JANGAN MELAKUKAN SPAM SAMPAI 8 CHAT, KARNA SAYA OTOMATIS AKAN MEMBLOKIR ANDA, TUNGGU SAMPAI__ **{DEFAULTUSER}** __MENERIMA PESAN ANDA__\n\n"
     "✣ `PESAN OTOMATIS`\n"
     "✣ `BY MAN-USERBOT`\n"
@@ -415,7 +415,7 @@ async def add_pmsg(cust_msg):
         else:
             await cust_msg.edit(
                 "**Anda Belum Menyetel Pesan Costum PMPERMIT,** "
-                f"Masih Menggunakan Pesan PM Default: \n\n`{DEF_UNAPPROVED_MSG}`"
+                f"Masih Menggunakan Pesan PM Default: \n\n{DEF_UNAPPROVED_MSG}"
             )
 
 
