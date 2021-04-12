@@ -26,8 +26,8 @@ from userbot.events import register
 DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else uname().node
 
 DEF_UNAPPROVED_MSG = (
-    f"Hello, Saya **{DEFAULTUSER}-Userbot Pr¡va†e Security Protocol**⚠️\n\n"
-    f"`SAYA ADALAH BOT YANG MENJAGA ROOM CHAT INI MOHON JANGAN MELAKUKAN SPAM KARNA SAYA OTOMATIS AKAN MEMBLOKIR ANDA, TUNGGU SAMPAI {DEFAULTUSER} MENERIMA PESAN ANDA`\n\n"
+    f"Hello, Saya `{DEFAULTUSER}-Userbot Pr¡va†e Security Protocol`⚠️\n\n"
+    f"`SAYA ADALAH BOT YANG MENJAGA ROOM CHAT INI MOHON JANGAN MELAKUKAN SPAM SAMPAI 8 CHAT, KARNA SAYA OTOMATIS AKAN MEMBLOKIR ANDA, TUNGGU SAMPAI {DEFAULTUSER} MENERIMA PESAN ANDA`\n\n"
     "✣ PESAN OTOMATIS\n"
     "✣ BY MAN-USERBOT\n"
 )
@@ -85,7 +85,7 @@ async def permitpm(event):
                 COUNT_PM[event.chat_id] = COUNT_PM[event.chat_id] + 1
 
             if COUNT_PM[event.chat_id] > 8:
-                await event.respond("`Anda Telah Di Blokir Karna Melakukan Spam Pesan`")
+                await event.respond("`Anda Telah Di Blokir Karna Melakukan Chat Spam`")
 
                 try:
                     del COUNT_PM[event.chat_id]
@@ -414,7 +414,7 @@ async def add_pmsg(cust_msg):
             )
         else:
             await cust_msg.edit(
-                "**Anda Belum Menyetel Pesan Costuom PMPERMIT** "
+                "**Anda Belum Menyetel Pesan Costum PMPERMIT,** "
                 f"Masih Menggunakan Pesan PM Default: \n\n`{DEF_UNAPPROVED_MSG}`"
             )
 
