@@ -32,20 +32,19 @@ from emoji import get_emoji_regexp
 from googletrans import LANGUAGES, Translator
 from gtts import gTTS
 from gtts.lang import tts_langs
-from humanize import naturalsize
-from requests import exceptions, get, post
-from re import findall
-from urllib.error import HTTPError
-from search_engine_parser import YahooSearch as GoogleSearch
-from telethon.tl.types import DocumentAttributeAudio, MessageMediaPhoto
-from wikipedia import summary
-from wikipedia.exceptions import DisambiguationError, PageError
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
-from requests import get
+from humanize import naturalsize
+from requests import exceptions, get, post
 from search_engine_parser import GoogleSearch
-from telethon.tl.types import DocumentAttributeAudio, DocumentAttributeVideo
-from urbandict import define
+from search_engine_parser import YahooSearch as GoogleSearch
+from telethon.tl.types import (
+    DocumentAttributeAudio,
+    DocumentAttributeVideo,
+    MessageMediaPhoto,
+)
+from wikipedia import summary
+from wikipedia.exceptions import DisambiguationError, PageError
 from youtube_search import YoutubeSearch
 from yt_dlp import YoutubeDL
 from yt_dlp.utils import (
