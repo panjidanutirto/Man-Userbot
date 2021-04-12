@@ -26,7 +26,7 @@ from userbot.events import register
 DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else uname().node
 
 DEF_UNAPPROVED_MSG = (
-    f"Hai [{user.first_name}](tg://user?id={user.id}), Saya **{DEFAULTUSER}-Userbot Private Security Protocol**⚠️\n\n"
+    f"Hai [{name0}](tg://user?id={uid}), Saya **{DEFAULTUSER}-Userbot Private Security Protocol**⚠️\n\n"
     f"__SAYA ADALAH BOT YANG MENJAGA ROOM CHAT INI MOHON JANGAN MELAKUKAN SPAM SAMPAI 8 CHAT, KARNA SAYA OTOMATIS AKAN MEMBLOKIR ANDA, TUNGGU SAMPAI__ **{DEFAULTUSER}** __MENERIMA PESAN ANDA__\n\n"
     "✣ `PESAN OTOMATIS`\n"
     "✣ `BY MAN-USERBOT`\n"
@@ -241,7 +241,7 @@ async def approvepm(apprvpm):
     except IntegrityError:
         return await apprvpm.edit("`Pesan Anda Sudah Diterima`")
 
-    await apprvpm.edit(f"[{name0}](tg://user?id={uid}) **approved to PM!**")
+    await apprvpm.edit(f"[{name0}](tg://user?id={uid}) `Pesan Anda Sudah Diterima`")
 
     if BOTLOG:
         await apprvpm.client.send_message(
