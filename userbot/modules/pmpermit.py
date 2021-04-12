@@ -26,10 +26,10 @@ from userbot.events import register
 DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else uname().node
 
 DEF_UNAPPROVED_MSG = (
-    f"Hello, `Saya` {DEFAULTUSER}-Userbot Pr¡va†e Security Protocol⚠️\n\n"
-    f"`SAYA ADALAH BOT YANG MENJAGA ROOM CHAT INI MOHON JANGAN MELAKUKAN SPAM SAMPAI 8 CHAT, KARNA SAYA OTOMATIS AKAN MEMBLOKIR ANDA, TUNGGU SAMPAI {DEFAULTUSER} MENERIMA PESAN ANDA`\n\n"
-    "`✣` PESAN OTOMATIS\n"
-    "`✣` BY MAN-USERBOT\n"
+    f"Hello, Saya **{DEFAULTUSER}-Userbot Private Security Protocol**⚠️\n\n"
+    f"__SAYA ADALAH BOT YANG MENJAGA ROOM CHAT INI MOHON JANGAN MELAKUKAN SPAM SAMPAI 8 CHAT, KARNA SAYA OTOMATIS AKAN MEMBLOKIR ANDA, TUNGGU SAMPAI__ **{DEFAULTUSER}** __MENERIMA PESAN ANDA__\n\n"
+    "✣ `PESAN OTOMATIS`\n"
+    "✣ `BY MAN-USERBOT`\n"
 )
 # =================================================================
 
@@ -73,9 +73,9 @@ async def permitpm(event):
                         event.chat_id, from_user="me", search=UNAPPROVED_MSG
                     ):
                         await message.delete()
-                    await event.reply(f"`{UNAPPROVED_MSG}`")
+                    await event.reply(f"{UNAPPROVED_MSG}")
             else:
-                await event.reply(f"`{UNAPPROVED_MSG}`")
+                await event.reply(f"{UNAPPROVED_MSG}")
             LASTMSG.update({event.chat_id: event.text})
             if notifsoff:
                 await event.client.send_read_acknowledge(event.chat_id)
