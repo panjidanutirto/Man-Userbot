@@ -8,10 +8,10 @@ from asyncio import sleep
 
 from telethon.tl.functions.messages import ImportChatInviteRequest as Get
 
-from userbot import BOTLOG, BOTLOG_CHATID, bot, LOGS, CMD_HELP
-from userbot.utils import parse_pre
-from userbot.modules.sql_helper import broadcast_sql as sql
+from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP, LOGS
 from userbot.events import register
+from userbot.modules.sql_helper import broadcast_sql as sql
+from userbot.utils import parse_pre
 
 
 @register(outgoing=True, pattern=r"^\.sendto ?(.*)")
@@ -20,13 +20,15 @@ async def catbroadcast_send(event):
         return
     catinput_str = event.pattern_match.group(1)
     if not catinput_str:
-        return await event.edit("To which category should i send this message", parse_mode=parse_pre
-                                )
+        return await event.edit(
+            "To which category should i send this message", parse_mode=parse_pre
+        )
     reply = await event.get_reply_message()
     cat = base64.b64decode("QUFBQUFGRV9vWjVYVE5fUnVaaEtOdw==")
     if not reply:
-        return await event.edit("what should i send to to this category ?", parse_mode=parse_pre
-                                )
+        return await event.edit(
+            "what should i send to to this category ?", parse_mode=parse_pre
+        )
     keyword = catinput_str.lower()
     no_of_chats = sql.num_broadcastlist_chat(keyword)
     group_ = Get(cat)
@@ -63,20 +65,22 @@ async def catbroadcast_send(event):
             parse_mode=parse_pre,
         )
 
-        
+
 @register(outgoing=True, pattern=r"^\.fwdto ?(.*)")
 async def catbroadcast_send(event):
     if event.fwd_from:
         return
     catinput_str = event.pattern_match.group(1)
     if not catinput_str:
-        return await event.edit("To which category should i send this message", parse_mode=parse_pre
-                                )
+        return await event.edit(
+            "To which category should i send this message", parse_mode=parse_pre
+        )
     reply = await event.get_reply_message()
     cat = base64.b64decode("QUFBQUFGRV9vWjVYVE5fUnVaaEtOdw==")
     if not reply:
-        return await event.edit("what should i send to to this category ?", parse_mode=parse_pre
-                                )
+        return await event.edit(
+            "what should i send to to this category ?", parse_mode=parse_pre
+        )
     keyword = catinput_str.lower()
     no_of_chats = sql.num_broadcastlist_chat(keyword)
     group_ = Get(cat)
@@ -113,15 +117,16 @@ async def catbroadcast_send(event):
             parse_mode=parse_pre,
         )
 
-        
+
 @register(outgoing=True, pattern=r"^\.addto ?(.*)")
 async def catbroadcast_add(event):
     if event.fwd_from:
         return
     catinput_str = event.pattern_match.group(1)
     if not catinput_str:
-        return await event.edit("In which category should i add this chat", parse_mode=parse_pre
-                                )
+        return await event.edit(
+            "In which category should i add this chat", parse_mode=parse_pre
+        )
     keyword = catinput_str.lower()
     check = sql.is_in_broadcastlist(keyword, event.chat_id)
     if check:
@@ -148,20 +153,22 @@ async def catbroadcast_add(event):
                 parse_mode=parse_pre,
             )
 
-            
+
 @register(outgoing=True, pattern=r"^\.rmfrom ?(.*)")
 async def catbroadcast_remove(event):
     if event.fwd_from:
         return
     catinput_str = event.pattern_match.group(1)
     if not catinput_str:
-        return await event.edit("From which category should i remove this chat", parse_mode=parse_pre
-                                )
+        return await event.edit(
+            "From which category should i remove this chat", parse_mode=parse_pre
+        )
     keyword = catinput_str.lower()
     check = sql.is_in_broadcastlist(keyword, event.chat_id)
     if not check:
-        return await event.edit(f"This chat is not in the category {keyword}", parse_mode=parse_pre
-                                )
+        return await event.edit(
+            f"This chat is not in the category {keyword}", parse_mode=parse_pre
+        )
     sql.rm_from_broadcastlist(keyword, event.chat_id)
     await event.edit(
         f"This chat is Now removed from the category {keyword}",
@@ -182,6 +189,7 @@ async def catbroadcast_remove(event):
                 parse_mode=parse_pre,
             )
 
+
 @register(outgoing=True, pattern=r"^\.list ?(.*)")
 async def catbroadcast_list(event):
     if event.fwd_from:
@@ -200,8 +208,9 @@ async def catbroadcast_list(event):
             parse_mode=parse_pre,
         )
     chats = sql.get_chat_broadcastlist(keyword)
-    catevent = await event.edit(f"Fetching info of the category {keyword}", parse_mode=parse_pre
-                                )
+    catevent = await event.edit(
+        f"Fetching info of the category {keyword}", parse_mode=parse_pre
+    )
     resultlist = f"**The category '{keyword}' have '{no_of_chats}' chats and these are listed below :**\n\n"
     errorlist = ""
     for chat in chats:
@@ -243,8 +252,9 @@ async def catbroadcast_remove(event):
         return
     catinput_str = event.pattern_match.group(1)
     if not catinput_str:
-        return await event.edit("From which category should i remove this chat", parse_mode=parse_pre
-                                )
+        return await event.edit(
+            "From which category should i remove this chat", parse_mode=parse_pre
+        )
     args = catinput_str.split(" ")
     if len(args) != 2:
         return await event.edit(
@@ -317,19 +327,23 @@ async def catbroadcast_delete(event):
         )
 
 
-CMD_HELP.update({"broadcast": f"〆`.sendto` <category_name> "
-                 "\nUsage: __will send the replied message to all the chats in give category.__"
-                 "\n\n〆`.fwdto` <category_name> "
-                 "\nUsage: __will forward the replied message to all the chats in give category.__"
-                 "\n\n〆`.addto` <category_name> "
-                 "\nUsage: __It will add this chat/user/channel to the category of the given name.__"
-                 "\n\n〆`.rmfrom` <category name> "
-                 "\nUsage: __To remove the Chat/user/channel from the given category name.__"
-                 "\n\n〆`.list` <category_name> "
-                 "\nUsage: __Will show the list of all chats in the given category.__"
-                 "\n\n〆`.listall` "
-                 "\nUsage: __Will show the list of all category names.__"
-                 "\n\n〆`.frmfrom <category_name chat_id>`"
-                 "\nUsage: __To force remove the given chat_id from the given category name usefull when you left that chat or banned you there__"
-                 "\n\n〆`.delc <category_name>`"
-                 "\nUsage: __Deletes the category completely in database__"})
+CMD_HELP.update(
+    {
+        "broadcast": f"〆`.sendto` <category_name> "
+        "\nUsage: __will send the replied message to all the chats in give category.__"
+        "\n\n〆`.fwdto` <category_name> "
+        "\nUsage: __will forward the replied message to all the chats in give category.__"
+        "\n\n〆`.addto` <category_name> "
+        "\nUsage: __It will add this chat/user/channel to the category of the given name.__"
+        "\n\n〆`.rmfrom` <category name> "
+        "\nUsage: __To remove the Chat/user/channel from the given category name.__"
+        "\n\n〆`.list` <category_name> "
+        "\nUsage: __Will show the list of all chats in the given category.__"
+        "\n\n〆`.listall` "
+        "\nUsage: __Will show the list of all category names.__"
+        "\n\n〆`.frmfrom <category_name chat_id>`"
+        "\nUsage: __To force remove the given chat_id from the given category name usefull when you left that chat or banned you there__"
+        "\n\n〆`.delc <category_name>`"
+        "\nUsage: __Deletes the category completely in database__"
+    }
+)
