@@ -1,17 +1,18 @@
 # Recode by @mrismanaziz
 # @SharingUserbot
 
-import os
 import asyncio
-import PIL
-import cv2
-import time
+import os
 import random
 import re
-from userbot.utils import progress
-from userbot.events import register
-from userbot import CMD_HELP, bot
+import time
 
+import cv2
+import PIL
+
+from userbot import CMD_HELP, bot
+from userbot.events import register
+from userbot.utils import progress
 
 EMOJI_PATTERN = re.compile(
     "["
@@ -131,8 +132,7 @@ async def frg(animu):
     if not text:
         await animumedit("`Silahkan Masukan Kata!`")
     else:
-        sticcers = await bot.inline_query("honka_says_bot", f"{text}."
-                                          )
+        sticcers = await bot.inline_query("honka_says_bot", f"{text}.")
     try:
         await sticcers[0].click(
             animu.chat_id,
@@ -164,13 +164,20 @@ async def _(event):
     if event.reply_to_msg_id:
         event.reply_to_msg_id
     process = await asyncio.create_subprocess_shell(
-        cobra, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
+        cobra, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+    )
     stdout, stderr = await process.communicate()
     await event.edit("```Uploading...```")
     c_time = time.time()
-    await event.client.send_file(event.chat_id, "danish.mp4", force_document=False, reply_to=event.reply_to_msg_id, progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-        progress(d, t, event, c_time, "[UPLOAD]")
-    ),)
+    await event.client.send_file(
+        event.chat_id,
+        "danish.mp4",
+        force_document=False,
+        reply_to=event.reply_to_msg_id,
+        progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+            progress(d, t, event, c_time, "[UPLOAD]")
+        ),
+    )
     await event.delete()
     os.system("rm -f downloads/*.jpg")
     os.system("rm -f downloads/*.png")
