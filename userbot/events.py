@@ -101,7 +101,7 @@ def register(**args):
                     text = "**✘ MAN-USERBOT ERROR REPORT ✘**\n\n"
                     link = "[Group Support](https://t.me/SharingUserbot)"
                     text += "Jika mau, Anda bisa melaporkan error ini, "
-                    text += f"Cukup forward saja pesan ini ke {link}.\n"
+                    text += f"Cukup forward saja pesan ini ke {link}.\n\n"
 
                     ftext = "========== DISCLAIMER =========="
                     ftext += "\nFile ini HANYA diupload di sini,"
@@ -109,7 +109,7 @@ def register(**args):
                     ftext += "\nkami menghormati privasi Anda."
                     ftext += "\nJika mau, Anda bisa melaporkan error ini,"
                     ftext += "\ncukup forward saja pesan ini ke @SharingUserbot"
-                    ftext += "================================\n\n"
+                    ftext += "\n================================\n\n"
                     ftext += "--------BEGIN USERBOT TRACEBACK LOG--------\n"
                     ftext += "\nTanggal : " + date
                     ftext += "\nChat ID: " + str(check.chat_id)
@@ -156,7 +156,7 @@ def register(**args):
                             .get("key")
                         )
                         url = f"https://nekobin.com/raw/{key}"
-                        anu = f"{text}✣ Paste ke : [Nekobin]({url})"
+                        anu = f"{text}**✣ Paste ke :** [Nekobin]({url})"
 
                         await check.client.send_file(send_to,
                                                      "error.txt",
