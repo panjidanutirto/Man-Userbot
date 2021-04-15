@@ -350,7 +350,7 @@ CMD_HELP = {}
 ISAFK = False
 AFKREASON = None
 ZALG_LIST = {}
-modules = CMD_HELP
+
 
 def paginate_help(page_number, loaded_modules, prefix):
     number_of_rows = 5
@@ -423,6 +423,7 @@ with bot:
                 result = builder.article(
                     user = await bot.get_me()
                     uptime = await get_readable_time((time.time() - StartTime))
+                    modules = CMD_HELP
                     title="Alive",
                     description="Man - UserBot | Telethon",
                     url="https://t.me/SharingUserbot",
