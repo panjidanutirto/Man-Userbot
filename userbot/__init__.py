@@ -428,13 +428,13 @@ with bot:
                     text=f"""
 **♕ ┗┓ MAN USERBOT ┏┛ ♕**
 ┏━━━━━━━━━━━━━━ \n"
-┣ ✥ `Master   : `{ALIVE_NAME} 
+┣ ✥ `Master   : `{ALIVE_NAME}
 ┣ ✥ `Telethon : `Ver {version.__version__}
 ┣ ✥ `Python   : `Ver {python_version()}
-┣ ✥ `Bot Ver  : `{BOT_VER} 
-┣ ✥ `Branch   : `Man-Userbot 
+┣ ✥ `Bot Ver  : `{BOT_VER}
+┣ ✥ `Branch   : `Man-Userbot
 ┣ ✥ `Modules  : `{len(dugmeler)} Modules
-┣ ✥ `Uptime   : `{uptime} 
+┣ ✥ `Uptime   : `{uptime}
 ┗━━━━━━━━━━━━━━
 """
                     buttons=[
