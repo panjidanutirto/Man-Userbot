@@ -14,13 +14,15 @@ from sys import version_info
 from logging import basicConfig, getLogger, INFO, DEBUG
 from distutils.util import strtobool as sb
 from math import ceil
-
+from platform import python_version, uname
 from pylast import LastFMNetwork, md5
 from pySmartDL import SmartDL
 from pymongo import MongoClient
 from redis import StrictRedis
 from dotenv import load_dotenv
 from requests import get
+from telethon import version
+from telethon import __version__, version
 from telethon.sync import TelegramClient, custom, events
 from telethon.sessions import StringSession
 
@@ -348,7 +350,7 @@ CMD_HELP = {}
 ISAFK = False
 AFKREASON = None
 ZALG_LIST = {}
-
+modules = CMD_HELP
 
 def paginate_help(page_number, loaded_modules, prefix):
     number_of_rows = 5
@@ -419,10 +421,12 @@ with bot:
                 )
             elif query.startswith("repome"):
                 result = builder.article(
-                    title="Repository",
-                    description="Repository Man - Userbot",
+                    user = await bot.get_me()
+                    uptime = await get_readable_time((time.time() - StartTime))
+                    title="Alive",
+                    description="Man - UserBot | Telethon",
                     url="https://t.me/SharingUserbot",
-                    text="**Man - UserBot**\n➖➖➖➖➖➖➖➖➖➖\n✣ **Owner Repo :** [Risman](https://t.me/mrismanaziz)\n✣ **Grup Support :** @SharingUserbot\n✣ **Repository :** [Man-Userbot](https://github.com/mrismanaziz/Man-Userbot)\n➖➖➖➖➖➖➖➖➖➖",
+                    text= f"**♕ ┗┓ MAN USERBOT ┏┛ ♕** \n\n"f"┏━━━━━━━━━━━━━━ \n"f"┣ ✥ `Master   : `{ALIVE_NAME} \n"f"┣ ✥ `Username : `@{user.username} \n"f"┣ ✥ `Telethon : `Ver {version.__version__} \n"f"┣ ✥ `Python   : `Ver {python_version()} \n"f"┣ ✥ `Bot Ver  : `{BOT_VER} \n"f"┣ ✥ `Branch   : `Man-Userbot \n"f"┣ ✥ `Modules  : `{len(modules)} Modules \n"f"┣ ✥ `Uptime   : `{uptime} \n"f"┗━━━━━━━━━━━━━━ \n",
                     buttons=[
                         [
                             custom.Button.url(
