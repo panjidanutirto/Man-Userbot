@@ -422,21 +422,10 @@ with bot:
                 )
             elif query.startswith("repome"):
                 result = builder.article(
-                    title="Alive",
-                    description="Man - UserBot | Telethon",
+                    title="Repository",
+                    description="Repository Man - Userbot",
                     url="https://t.me/SharingUserbot",
-                    text=f"""
-**♕ ┗┓ MAN USERBOT ┏┛ ♕**
-┏━━━━━━━━━━━━━━ \n"
-┣ ✥ `Master   : `{ALIVE_NAME}
-┣ ✥ `Telethon : `Ver {version.__version__}
-┣ ✥ `Python   : `Ver {python_version()}
-┣ ✥ `Bot Ver  : `{BOT_VER}
-┣ ✥ `Branch   : `Man-Userbot
-┣ ✥ `Modules  : `{len(dugmeler)} Modules
-┣ ✥ `Uptime   : `{uptime}
-┗━━━━━━━━━━━━━━
-"""
+                    text="**Man - UserBot**\n➖➖➖➖➖➖➖➖➖➖\n✣ **Owner Repo :** [Risman](https://t.me/mrismanaziz)\n✣ **Grup Support :** @SharingUserbot\n✣ **Repository :** [Man-Userbot](https://github.com/mrismanaziz/Man-Userbot)\n➖➖➖➖➖➖➖➖➖➖",
                     buttons=[
                         [
                             custom.Button.url(
