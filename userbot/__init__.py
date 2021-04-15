@@ -426,7 +426,17 @@ with bot:
                     title="Alive",
                     description="Man - UserBot | Telethon",
                     url="https://t.me/SharingUserbot",
-                    text=f"**♕ ┗┓ MAN USERBOT ┏┛ ♕** \n\n"f"┏━━━━━━━━━━━━━━ \n"f"┣ ✥ `Master   : `{ALIVE_NAME} \n"f"┣ ✥ `Username : `@{me.username} \n"f"┣ ✥ `Telethon : `Ver {version.__version__} \n"f"┣ ✥ `Python   : `Ver {python_version()} \n"f"┣ ✥ `Bot Ver  : `{BOT_VER} \n"f"┣ ✥ `Branch   : `Man-Userbot \n"f"┣ ✥ `Modules  : `{len(modules)} Modules \n"f"┣ ✥ `Uptime   : `{uptime} \n"f"┗━━━━━━━━━━━━━━ \n",
+                    text=f"**♕ ┗┓ MAN USERBOT ┏┛ ♕** \n\n"
+                    f"┏━━━━━━━━━━━━━━ \n"
+                    f"┣ ✥ `Master   : `{ALIVE_NAME} \n"
+                    f"┣ ✥ `Username : `@{me.username} \n"
+                    f"┣ ✥ `Telethon : `Ver {version.__version__} \n"
+                    f"┣ ✥ `Python   : `Ver {python_version()} \n"
+                    f"┣ ✥ `Bot Ver  : `{BOT_VER} \n"
+                    f"┣ ✥ `Branch   : `Man-Userbot \n"
+                    f"┣ ✥ `Modules  : `{len(modules)} Modules \n"
+                    f"┣ ✥ `Uptime   : `{uptime} \n"
+                    f"┗━━━━━━━━━━━━━━ \n",
                     buttons=[
                         [
                             custom.Button.url(
