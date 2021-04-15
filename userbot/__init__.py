@@ -396,7 +396,6 @@ with bot:
         me = bot.get_me()
         uid = me.id
         uptime = get_readable_time((time.time() - StartTime))
-        modules = CMD_HELP
 
         @tgbot.on(events.NewMessage(pattern="/start"))
         async def handler(event):
@@ -426,17 +425,18 @@ with bot:
                     title="Alive",
                     description="Man - UserBot | Telethon",
                     url="https://t.me/SharingUserbot",
-                    text=f"**♕ ┗┓ MAN USERBOT ┏┛ ♕** \n\n"
-                    f"┏━━━━━━━━━━━━━━ \n"
-                    f"┣ ✥ `Master   : `{ALIVE_NAME} \n"
-                    f"┣ ✥ `Username : `@{me.username} \n"
-                    f"┣ ✥ `Telethon : `Ver {version.__version__} \n"
-                    f"┣ ✥ `Python   : `Ver {python_version()} \n"
-                    f"┣ ✥ `Bot Ver  : `{BOT_VER} \n"
-                    f"┣ ✥ `Branch   : `Man-Userbot \n"
-                    f"┣ ✥ `Modules  : `{len(modules)} Modules \n"
-                    f"┣ ✥ `Uptime   : `{uptime} \n"
-                    f"┗━━━━━━━━━━━━━━ \n",
+                    text=f"""
+**♕ ┗┓ MAN USERBOT ┏┛ ♕**
+┏━━━━━━━━━━━━━━ \n"
+┣ ✥ `Master   : `{ALIVE_NAME} 
+┣ ✥ `Telethon : `Ver {version.__version__}
+┣ ✥ `Python   : `Ver {python_version()}
+┣ ✥ `Bot Ver  : `{BOT_VER} 
+┣ ✥ `Branch   : `Man-Userbot 
+┣ ✥ `Modules  : `{len(dugmeler)} Modules
+┣ ✥ `Uptime   : `{uptime} 
+┗━━━━━━━━━━━━━━
+"""
                     buttons=[
                         [
                             custom.Button.url(
