@@ -417,7 +417,7 @@ with bot:
                     buttons=buttons,
                     link_preview=False,
                 )
-            elif query.startswith("repo"):
+            elif query.startswith("repome"):
                 result = builder.article(
                     title="Repository",
                     description="Repository Man - Userbot",
