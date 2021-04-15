@@ -45,6 +45,7 @@ async def yardim(event):
             "`You cannot send inline results in this chat (caused by SendInlineBotResultRequest)`"
         )
 
+
 @register(outgoing=True, pattern=r"^\.repome")
 async def yardim(event):
     try:
