@@ -49,30 +49,6 @@
       "description": "If you need verbosity on the console logging",
       "value": "False"
     },
-    "QUOTES_API_TOKEN": {
-      "description": "Dapatkan Token Dari » http://antiddos.systems",
-      "required": false
-    },
-    "GENIUS_ACCESS_TOKEN": {
-      "description": "Token Aksess Klien dari » https://genius.com/api-clients.",
-      "required": false
-    },
-    "MONGO_URI": {
-      "description": "URL Atlas MongoDB Anda, Dapatkan panduan Anda dari » https://telegra.ph/Mongo-DB-12-24.",
-      "required": false
-    },
-    "GENIUS": {
-      "description": "Dapatkan nilai dari » https://genius.com/developers., pada dasarnya sama dengan GENIUS_API_TOKEN.",
-      "required": false
-    },
-    "GITHUB_ACCESS_TOKEN": {
-      "description": "GITHUB_ACCESS_TOKEN Anda, dapatkan dari » 'https://github.com/settings/tokens'",
-      "required": false
-    },
-    "GIT_REPO_NAME": {
-      "description": "Tambahkan GIT_REPO_NAME di sini. Ini membantu dengan komit di GitHub.",
-      "required": false
-    },
     "COUNTRY": {
       "description": "Setel Negara Anda untuk digunakan dalam perintah .time dan .date.",
       "value": "ID",
@@ -103,14 +79,6 @@
     },
     "YOUTUBE_API_KEY": {
       "description": "Kunci API Data YouTube untuk perintah .yt. Dapat dari » https://console.cloud.google.com",
-      "required": false
-    },
-    "OCR_SPACE_API_KEY": {
-      "description": "Kunci API OCR untuk perintah .ocr. Dapat dari » https://ocr.space/ocrapi",
-      "required": false
-    },
-    "REM_BG_API_KEY": {
-      "description": "Kunci API untuk perintah .rbg. Dapat dari » https://www.remove.bg/api",
       "required": false
     },
     "ANTI_SPAMBOT": {
@@ -147,22 +115,8 @@
       "description": "Costum Nama Sticker Pack Mu",
       "required": false
     },
-    "G_BAN_LOGGER_GROUP": {
-      "description": "Buatlah Sebuah Grup Public Lalu Masukkan Bot Rose Lalu Ketik /id.",
-      "value": "Isi id grup mu",
-      "required": false
-    },
-    "BITLY_TOKEN": {
-      "description": "Kunci API Bit.ly Anda, dapatkan dari 'https://bitly.com/a/sign_up'",
-      "value": "",
-      "required": false
-    },
     "UB_BLACK_LIST_CHAT": {
       "description": "Isi Apa Aja",
-      "required": false
-    },
-    "LYDIA_API_KEY": {
-      "description": "Modul ini Membutuhkan API CoffeeHouse agar berfungsi. jadi daftar https://telegram.dog/IntellivoidDev dan kirim #activateapi dan ikuti instruksinya.",
       "required": false
     },
     "WEATHER_DEFCITY": {
@@ -174,10 +128,6 @@
       "description": "Set this to True in case you want the error logs to be stored in the userbot log group, instead of spitting out the file in the current chat, requires a valid BOTLOG_CHATID to be set.",
       "value": "True",
       "required": true
-    },
-    "UPSTREAM_REPO_URL": {
-      "description": "In case you maintain a fork, add your repo URL here.",
-      "required": false
     },
     "BOT_TOKEN": {
       "description": "Setel ini untuk mengaktifkan pembantu inline. dapatkan token dari @BotFather",
