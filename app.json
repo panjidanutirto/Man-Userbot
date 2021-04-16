@@ -61,6 +61,7 @@
     },
     "OPEN_WEATHER_MAP_APPID": {
       "description": "Dapatkan APPID (kunci API) Anda sendiri dari » https://api.openweathermap.org/data/2.5/weather",
+      "value": "2b21c302213a5bbf9aa202f870dc7e0f",
       "required": false
     },
     "PM_AUTO_BAN": {
@@ -75,10 +76,6 @@
     "ALIVE_LOGO": {
       "description": "Gambar dalam pesan .alive. the value MUST A DIRECT LINK or Will Crash!",
       "value": "https://telegra.ph/file/9dc4e335feaaf6a214818.jpg",
-      "required": false
-    },
-    "YOUTUBE_API_KEY": {
-      "description": "Kunci API Data YouTube untuk perintah .yt. Dapat dari » https://console.cloud.google.com",
       "required": false
     },
     "ANTI_SPAMBOT": {
@@ -113,10 +110,6 @@
     },
     "S_PACK_NAME": {
       "description": "Costum Nama Sticker Pack Mu",
-      "required": false
-    },
-    "UB_BLACK_LIST_CHAT": {
-      "description": "Isi Apa Aja",
       "required": false
     },
     "WEATHER_DEFCITY": {
