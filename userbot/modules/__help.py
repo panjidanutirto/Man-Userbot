@@ -44,4 +44,3 @@ async def yardim(event):
         return await event.edit(
             "`You cannot send inline results in this chat (caused by SendInlineBotResultRequest)`"
         )
-
