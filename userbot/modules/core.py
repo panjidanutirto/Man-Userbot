@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+from userbot import CMD_HELP, LOGS, bot
 from userbot.events import register
 from userbot.utils import load_module
 
