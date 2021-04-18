@@ -36,6 +36,31 @@ async def md5(fname: str) -> str:
             hash_md5.update(chunk)
     return hash_md5.hexdigest()
 
+def load_module(shortname):
+    if shortname.startswith("__"):
+        pass
+    elif shortname.endswith("_"):
+        path = Path(f"userbot/modules/{shortname}.py")
+        name = "userbot.modules.{}".format(shortname)
+        spec = importlib.util.spec_from_file_location(name, path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        LOGS.info("Successfully imported " + shortname)
+    else:
+
+        path = Path(f"userbot/modules/{shortname}.py")
+        name = "userbot.modules.{}".format(shortname)
+        spec = importlib.util.spec_from_file_location(name, path)
+        mod = importlib.util.module_from_spec(spec)
+        mod.bot = bot
+        mod.LOGS = LOGS
+        mod.CMD_HELP = CMD_HELP
+        mod.logger = logging.getLogger(shortname)
+        spec.loader.exec_module(mod)
+        # for imports
+        sys.modules["userbot.modules." + shortname] = mod
+        LOGS.info("Successfully imported " + shortname)
+
 
 def humanbytes(size: int) -> str:
     if size is None or isinstance(size, str):
