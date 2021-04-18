@@ -285,7 +285,7 @@ async def scam(results, lim):
     return imglinks
 
 
-@register(outgoing=True, pattern=r"^\.send (.*)")
+@register(outgoing=True, pattern=r"^\.fwd (.*)")
 async def send(event):
     await event.edit("`Processing...`")
 
@@ -306,8 +306,8 @@ async def send(event):
 
 CMD_HELP.update(
     {
-        "send": "**Plugin : **`send`\
-        \n\n  •  **Syntax :** `.send`\
+        "forward": "**Plugin : **`forward`\
+        \n\n  •  **Syntax :** `.fwd\
         \n  •  **Function : **Meneruskan pesan balasan ke obrolan tertentu tanpa tag Forwarded from. \
     "
     }
