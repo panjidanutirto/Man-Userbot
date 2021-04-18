@@ -144,4 +144,4 @@ def register(**args):
             bot.add_event_handler(wrapper, events.MessageEdited(**args))
         bot.add_event_handler(wrapper, events.NewMessage(**args))
         return wrapper
-    return 
+    return
