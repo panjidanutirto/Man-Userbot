@@ -36,6 +36,7 @@ async def md5(fname: str) -> str:
             hash_md5.update(chunk)
     return hash_md5.hexdigest()
 
+
 def load_module(shortname):
     if shortname.startswith("__"):
         pass
