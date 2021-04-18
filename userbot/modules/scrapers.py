@@ -33,18 +33,12 @@ from emoji import get_emoji_regexp
 from googletrans import LANGUAGES, Translator
 from gtts import gTTS
 from gtts.lang import tts_langs
-from hachoir.metadata import extractMetadata
-from hachoir.parser import createParser
 from humanize import naturalsize
 from js2py import EvalJs
 from requests import exceptions, get, post
 from search_engine_parser import GoogleSearch
 from search_engine_parser import YahooSearch as GoogleSearch
-from telethon.tl.types import (
-    DocumentAttributeAudio,
-    DocumentAttributeVideo,
-    MessageMediaPhoto,
-)
+from telethon.tl.types import DocumentAttributeAudio, MessageMediaPhoto
 from wikipedia import summary
 from wikipedia.exceptions import DisambiguationError, PageError
 from youtube_dl import YoutubeDL
@@ -71,9 +65,7 @@ from userbot import (
     bot,
 )
 from userbot.events import register
-from userbot.modules.upload_download import get_video_thumb
 from userbot.utils import chrome, googleimagesdownload, options, progress
-from userbot.utils.FastTelethon import upload_file
 
 CARBONLANG = "auto"
 TTS_LANG = "id"
@@ -476,59 +468,41 @@ async def download_video(v_url):
 
     if type == "audio":
         opts = {
-            'format':
-            'bestaudio',
-            'addmetadata':
-            True,
-            'key':
-            'FFmpegMetadata',
-            'writethumbnail':
-            True,
-            'prefer_ffmpeg':
-            True,
-            'geo_bypass':
-            True,
-            'nocheckcertificate':
-            True,
-            'postprocessors': [{
-                'key': 'FFmpegExtractAudio',
-                'preferredcodec': 'mp3',
-                'preferredquality': '320',
-            }],
-            'outtmpl':
-            '%(id)s.mp3',
-            'quiet':
-            True,
-            'logtostderr':
-            False
+            "format": "bestaudio",
+            "addmetadata": True,
+            "key": "FFmpegMetadata",
+            "writethumbnail": True,
+            "prefer_ffmpeg": True,
+            "geo_bypass": True,
+            "nocheckcertificate": True,
+            "postprocessors": [
+                {
+                    "key": "FFmpegExtractAudio",
+                    "preferredcodec": "mp3",
+                    "preferredquality": "320",
+                }
+            ],
+            "outtmpl": "%(id)s.mp3",
+            "quiet": True,
+            "logtostderr": False,
         }
         video = False
         song = True
 
     elif type == "video":
         opts = {
-            'format':
-            'best',
-            'addmetadata':
-            True,
-            'key':
-            'FFmpegMetadata',
-            'prefer_ffmpeg':
-            True,
-            'geo_bypass':
-            True,
-            'nocheckcertificate':
-            True,
-            'postprocessors': [{
-                'key': 'FFmpegVideoConvertor',
-                'preferedformat': 'mp4'
-            }],
-            'outtmpl':
-            '%(id)s.mp4',
-            'logtostderr':
-            False,
-            'quiet':
-            True
+            "format": "best",
+            "addmetadata": True,
+            "key": "FFmpegMetadata",
+            "prefer_ffmpeg": True,
+            "geo_bypass": True,
+            "nocheckcertificate": True,
+            "postprocessors": [
+                {"key": "FFmpegVideoConvertor", "preferedformat": "mp4"}
+            ],
+            "outtmpl": "%(id)s.mp4",
+            "logtostderr": False,
+            "quiet": True,
         }
         song = False
         video = True
@@ -560,35 +534,35 @@ async def download_video(v_url):
         return await v_url.edit(f"{str(type(e)): {str(e)}}")
     c_time = time.time()
     if song:
-        await v_url.edit(
-            f"`Preparing to upload song:`\n**{rip_data['title']}**")
+        await v_url.edit(f"`Preparing to upload song:`\n**{rip_data['title']}**")
         await v_url.client.send_file(
             v_url.chat_id,
             f"{rip_data['id']}.mp3",
             supports_streaming=True,
             attributes=[
-                DocumentAttributeAudio(duration=int(rip_data['duration']),
-                                       title=str(rip_data['title']),
-                                       performer=str(rip_data['uploader']))
+                DocumentAttributeAudio(
+                    duration=int(rip_data["duration"]),
+                    title=str(rip_data["title"]),
+                    performer=str(rip_data["uploader"]),
+                )
             ],
-            progress_callback=lambda d, t: asyncio.get_event_loop(
-            ).create_task(
-                progress(d, t, v_url, c_time, "Uploading..",
-                         f"{rip_data['title']}.mp3")))
+            progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                progress(d, t, v_url, c_time, "Uploading..", f"{rip_data['title']}.mp3")
+            ),
+        )
         os.remove(f"{rip_data['id']}.mp3")
         await v_url.delete()
     elif video:
-        await v_url.edit(
-            f"`Preparing to upload video:`\n**{rip_data['title']}**")
+        await v_url.edit(f"`Preparing to upload video:`\n**{rip_data['title']}**")
         await v_url.client.send_file(
             v_url.chat_id,
             f"{rip_data['id']}.mp4",
             supports_streaming=True,
-            caption=rip_data['title'],
-            progress_callback=lambda d, t: asyncio.get_event_loop(
-            ).create_task(
-                progress(d, t, v_url, c_time, "Uploading..",
-                         f"{rip_data['title']}.mp4")))
+            caption=rip_data["title"],
+            progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                progress(d, t, v_url, c_time, "Uploading..", f"{rip_data['title']}.mp4")
+            ),
+        )
         os.remove(f"{rip_data['id']}.mp4")
         await v_url.delete()
 
