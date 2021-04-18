@@ -1,6 +1,6 @@
 {
   "name": "Man-Userbot",
-  "description": "[Man-Userbot] USERBOT YANG DIGUNAKAN UNTUK BERSENANG-SENANG DI TELEGRAM.",
+  "description": "[Man-Userbot] Sebuah userbot Telegram modular yang berjalan pada Python 3.9+",
   "logo": "https://telegra.ph/file/9dc4e335feaaf6a214818.jpg",
   "keywords": [
     "telegram",
@@ -57,11 +57,6 @@
     "TZ_NUMBER": {
       "description": "Ubah nilai ini jika negara Anda memiliki beberapa Zona Waktu.",
       "value": "1",
-      "required": false
-    },
-    "OPEN_WEATHER_MAP_APPID": {
-      "description": "Dapatkan APPID (kunci API) Anda sendiri dari » https://api.openweathermap.org/data/2.5/weather",
-      "value": "2b21c302213a5bbf9aa202f870dc7e0f",
       "required": false
     },
     "PM_AUTO_BAN": {
